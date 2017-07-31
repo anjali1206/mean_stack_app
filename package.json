@@ -1,0 +1,21 @@
+{
+  "name": "mean_stack_app",
+  "version": "1.0.0",
+  "description": "MEAN stack application",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "MEANstack"
+  ],
+  "author": "Anjali Rathod",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "mongoose": "^4.11.4",
+    "morgan": "^1.8.2"
+  }
+}
