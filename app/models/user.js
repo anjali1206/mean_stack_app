@@ -8,9 +8,9 @@ var UserSchema = new Schema({
   email: { type: String, lowercase: true, required: true, unique: true },
 });
 
-//before saving the schema encrypt the password: (for info.visit-http://mongoosejs.com/docs/middleware.html)
+//before saving the schema, encrypt the password: (for info.visit-http://mongoosejs.com/docs/middleware.html)
 UserSchema.pre('save', function(next) {
-  var user = this; //whatever user is running through this middlware.
+  var user = this; //whoever user(this user) is running through this middleware.
   //implement bcrypt to hash the password. (https://www.npmjs.com/package/bcrypt-nodejs)
   bcrypt.hash(user.password, null, null, function(err, hash) {
       // Store hash in your password DB.
