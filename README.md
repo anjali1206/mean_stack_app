@@ -6,3 +6,4 @@ Step 1: Setting up Server with NodeJS, ExpressJS and MongoDB with Mongoose.
 Step 2: Create User models & routes.
 Step 3: Adding the Static Layout (Index) Using ExpressJS. Separated frontend & backend paths.
 Step 4: Mapping Bootstrap, Angular, jQuery Libraries
+step 5: Angular Routes(ngRoute) inplementation
