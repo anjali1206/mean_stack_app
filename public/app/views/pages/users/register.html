@@ -1,0 +1,43 @@
+<div class="page-header">
+	<h1>Create an account for free.</h1>
+</div>
+
+<!-- ng-submit="register.regUser();" means when this form is submitted(clicked submit), activate this function-regUser(); register is the name given in routes.js in controllerAs
+regUSer(regData) - regData takea all the three user info.(email, uname,pw) & stores in one object.-->
+<form ng-submit="register.regUser(regData);">
+	<!-- Using ng-model="register.regData" to store the user info. in db,where regData is a name for ng-model. -->
+	<!-- email -->
+	<label>Email</label>
+	<input class="form-control" type="text" name="email" placeholder="Email" ng-model="register.regData.email">
+	<br>
+	<!-- username -->
+	<label>Username</label>
+	<input class="form-control" type="text" name="username" placeholder="Username" ng-model="register.regData.username">
+	<br>
+	<!-- password -->
+	<label>Password</label>
+	<input class="form-control" type="password" name="password" placeholder="Password" ng-model="register.regData.password">
+	<br>
+	<button class="btn btn-primary" type="submit">Register</button>
+</form>
+<br>
+
+<!-- to show Loading... on UI after user clicks on register btn. ng-show="register.loading" means when loading is true show it -->
+<div class="jumbotron text-center" ng-show="register.loading">
+	<span class="glyphicon glyphicon-repeat spinner">
+		<p>Loading...</p>
+	</span>
+</div>
+
+<br>
+<div class="row show-hide-message" ng-show="register.successMsg">
+	<div class="alert alert-success">
+		{{ register.successMsg }} <!-- this is how angular passes data from controller to html -->
+	</div>
+</div>
+<br>
+<div class="row show-hide-message" ng-show="register.errorMsg">
+	<div class="alert alert-danger">
+		{{ register.errorMsg }}
+	</div>
+</div>

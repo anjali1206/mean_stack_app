@@ -10,12 +10,25 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
+    <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/animate.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+
+    <!-- Main Angular files -->
     <script src="assets/js/angular.js"></script>
     <script src="assets/js/angular-route.js"></script>
-    <!-- injecting angular files app.js & routes.js -->
+    <script src="assets/js/angular-animate.js"></script>
+
+    <!-- Angular Config/Routes - injecting angular files app.js & routes.js -->
     <script src="app/app.js"></script>	
     <script src="app/routes.js"></script>
+
+    <!-- Angular Controllers -->
+    <script src="app/controllers/userCtrl.js"></script>
+
+    <!-- Angular Services -->
+    <script src="app/services/userServices.js"></script>
 
     <title>Theme Template for Bootstrap</title>
     
@@ -40,7 +53,7 @@
           <ul class="nav navbar-nav">
             <li class="active"><a href="/">Home</a></li>
             <li><a href="/about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="/register">Register</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
               <ul class="dropdown-menu">
@@ -63,7 +76,7 @@
       <!-- Main jumbotron for a primary marketing message or call to action -->
       <div class="jumbotron">
         <h1>Theme example</h1>
-        <p>This is a template showcasing the optional theme stylesheet included in Bootstrap. Use it as a starting point to create something more unique by building on or modifying it.</p>
+        <p>This is a template.</p>
       </div>
 
       <!-- injecting views -->

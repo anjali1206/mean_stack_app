@@ -13,6 +13,12 @@ angular.module('appRoutes', ['ngRoute'])
 		templateUrl: 'app/views/pages/about.html'
 	})
 
+	.when('/register', {	//when user types about, take them to about page
+		templateUrl: 'app/views/pages/users/register.html',
+		controller: 'regCtrl',
+		controllerAs: 'register'
+	})
+
 	.otherwise({ redirectTo: '/'});
 
 	//to remove # symbol from url -use angular nobase (visit: https://docs.angularjs.org/error/$location/nobase)
