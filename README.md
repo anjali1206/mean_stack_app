@@ -10,4 +10,4 @@ Step 3: Adding the Static Layout (Index) Using ExpressJS. Separated frontend & b
 
 Step 4: Mapping Bootstrap, Angular, jQuery Libraries
 
-Step 5: Angular Routes(ngRoute) inplementation
+Step 5: Angular Routes(ngRoute) implementation
