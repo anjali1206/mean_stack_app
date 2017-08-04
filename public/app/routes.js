@@ -13,10 +13,14 @@ angular.module('appRoutes', ['ngRoute'])
 		templateUrl: 'app/views/pages/about.html'
 	})
 
-	.when('/register', {	//when user types about, take them to about page
+	.when('/register', {	//when user types register, take them to register page
 		templateUrl: 'app/views/pages/users/register.html',
 		controller: 'regCtrl',
 		controllerAs: 'register'
+	})
+
+	.when('/login', {	//when user types login, take them to login page
+		templateUrl: 'app/views/pages/users/login.html',
 	})
 
 	.otherwise({ redirectTo: '/'});

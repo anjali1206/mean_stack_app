@@ -1,3 +1,4 @@
+//factory for all the custome funtions like registering with uname, email, password
 angular.module('userServices', []) 
 
 .factory('User', function($http){

@@ -23,5 +23,15 @@ UserSchema.pre('save', function(next) {
   
 });
 
+//method to validate the password
+UserSchema.methods.comparePassword = function(password){
+  return bcrypt.compareSync(password, this.password);
+};
+
 
 module.exports = mongoose.model('User', UserSchema); //to export the model with User schema
+
+
+/*bcrypt node js to encrypt the passwords
+https://www.npmjs.com/package/bcrypt-nodejs#basic-usage
+*/

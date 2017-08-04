@@ -1,7 +1,7 @@
 angular.module('userControllers', ['userServices'])
 	
 //registration controller	
-.controller('regCtrl', function($http, $location, $timeout, User){
+.controller('regCtrl', function($location, $timeout, User){
 	//to access varible in if else statements.
 	var app = this; 
 
@@ -19,6 +19,7 @@ angular.module('userControllers', ['userServices'])
 
 		//http post method to connect with backend & store the data in db
 		//$http.post('/api/users', this.regData).then(function(data){
+		//after adding $http method in userServices(userFactory), I can just user User.create defined in userServices
 		User.create(app.regData).then(function(data){
 			//console.log(data.data.success);
 			//console.log(data.data.message);
@@ -30,7 +31,7 @@ angular.module('userControllers', ['userServices'])
 				//create success msg 
 				app.successMsg = data.data.message + '... Redirecting to home...';
 
-				//redirect user ot home page with some timeout in seconds
+				//redirect user to home page with little delay in miliseconds
 				$timeout(function() { 
 					//The $location service parses the URL in the browser address bar
 					$location.path('/');

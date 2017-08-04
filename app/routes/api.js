@@ -1,7 +1,7 @@
 var User = require('../models/user'); //importing User model
 
 module.exports = function(router){	//function (router)- it's gonna export whatever the route is. 
-	//register route - http://localhost:8080/api/users 
+	//USER REGISTRATION ROUTE - http://localhost:8080/api/users 
 	router.post('/users', function(req, res){	//post method - Adding/Creating new things.
 		//res.send("Testing users route."); //just to test it- open POSTMAN & enter this url with POST method & hit send. It should show 'Testing users route' msg
 		var user = new User();	//a variable to store the new user's info.
@@ -26,5 +26,29 @@ module.exports = function(router){	//function (router)- it's gonna export whatev
 			});
 		}
 	});
+
+	//USER LOGIN ROUTE - http://localhost:8080/api/authenticate
+	router.post('/authenticate', function(req, res){
+		User.findOne({ username: req.body.username }).select('email username password').exec(function(err, user){
+			if(err) throw err;
+
+			if(!user){
+				res.json({ success: false, message:'Could not authenticate user.' });
+			} else if(user) {
+				if(req.body.password){
+					var validPassword = user.comparePassword(req.body.password);	
+				} else {
+					res.json({ success: false, message:'No password provided.' });
+				}
+				
+				if(!validPassword){
+					res.json({ success: false, message:'Could not authenticate password.' });
+				} else {
+					res.json({ success: true, message:'User authenticated.' });
+				}
+			}
+		});
+	});
+
 	return router;	//to return that router object
 }

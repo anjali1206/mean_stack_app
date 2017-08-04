@@ -13,3 +13,5 @@ Step 4: Mapping Bootstrap, Angular, jQuery Libraries
 Step 5: Angular Routes(ngRoute) implementation
 
 Step 6: User Registration Page, AngularJS Factory/Services, and ngAnimate
+
+Step 7: User Login, AngularJS Factory/Service, Authenticate Service
