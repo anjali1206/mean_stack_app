@@ -15,3 +15,5 @@ Step 5: Angular Routes(ngRoute) implementation
 Step 6: User Registration Page, AngularJS Factory/Services, and ngAnimate
 
 Step 7: User Login, AngularJS Factory/Service, Authenticate Service
+
+Step 8: Keep User Logged In Using JSON Web Tokens

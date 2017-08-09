@@ -36,8 +36,11 @@
     
   </head>
 
-	<!-- ng-app="userApp" - telling the application to user userApp, which I already mentioned in script tag where to find it -(app/app.js)-->
-  <body ng-app="userApp" ng-controller="mainCtrl as main"> 
+	<!-- ng-app="userApp" - telling the application to user userApp, which I already mentioned in script tag where to find it -(app/app.js)
+  ng-show="main.laodme - only show the body when loadme is true (comng from mainCtrl
+  ngCloak - this directive is used to prevent the AngularJS html template from being briefly displayed by the browser in its raw (uncompiled) form
+  -->
+  <body ng-app="userApp" ng-controller="mainCtrl as main" ng-show="main.loadme" ng-cloak> 
 
     <!-- Fixed navbar -->
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -54,8 +57,11 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li><a href="/">Home</a></li>
-            <li><a href="/login">Login</a></li>
-            <li><a href="/register">Register</a></li>
+            <!-- ng-show="!main.isLoggedIn" = if not loggedIn then only show login & register tabs-->
+            <li><a ng-show="!main.isLoggedIn" href="/login">Login</a></li>
+            <li><a ng-show="!main.isLoggedIn" href="/register">Register</a></li>
+            <li><a ng-show="main.isLoggedIn" href="#" ng-click="main.logout();">Logout</a></li>
+            
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
               <ul class="dropdown-menu">
@@ -68,6 +74,8 @@
                 <li><a href="#">One more separated link</a></li>
               </ul>
             </li>
+
+            <li><a ng-show="main.isLoggedIn" href="/profile"> {{ main.username }} </a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>

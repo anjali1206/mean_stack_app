@@ -20,7 +20,15 @@ angular.module('appRoutes', ['ngRoute'])
 	})
 
 	.when('/login', {	//when user types login, take them to login page
-		templateUrl: 'app/views/pages/users/login.html',
+		templateUrl: 'app/views/pages/users/login.html'
+	})
+
+	.when('/logout', {
+		templateUrl: 'app/views/pages/users/logout.html'
+	})
+
+	.when('/profile', {
+		templateUrl: 'app/views/pages/users/profile.html'
 	})
 
 	.otherwise({ redirectTo: '/'});

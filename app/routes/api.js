@@ -1,4 +1,6 @@
 var User = require('../models/user'); //importing User model
+var jwt = require('jsonwebtoken'); //jsonwebtoken
+var secret = 'aryastark'; //simple secret created(to provide extra security to token. So, it should be complex)
 
 module.exports = function(router){	//function (router)- it's gonna export whatever the route is. 
 	//USER REGISTRATION ROUTE - http://localhost:8080/api/users 
@@ -44,11 +46,40 @@ module.exports = function(router){	//function (router)- it's gonna export whatev
 				if(!validPassword){
 					res.json({ success: false, message:'Could not authenticate password.' });
 				} else {
-					res.json({ success: true, message:'User authenticated.' });
+					//create token with jwt. After password is validated, give token to the user with username & email encrypted. 
+					var token = jwt.sign({ username: user.username, email: user.email }, secret, { expiresIn: '24h'} );//after 24 hrs, this token expires
+					res.json({ success: true, message:'User authenticated.', token: token }); //it will return json object with success, msg and token
 				}
 			}
 		});
 	});
+
+	//MIDDLEWARE -  to get token bcrypted and send it back to user(currentUser)
+	router.use(function(req, res, next){
+		// to get the token 3 ways: request or url or headers
+		var token = req.body.token || req.body.query || req.headers['x-access-token']; 
+		
+		if(token){
+			//verify token
+			jwt.verify(token, secret, function(err, decoded){
+				if(err){
+					res.json({ success:false, message:'Token invalid' });
+				} else{
+					//decoded sends back the uname, email bcz thats what is being implemented.
+					req.decoded = decoded; //decoded = takes the token,combines with the secret,verifies it & once its good it sends back decoded
+					next();
+				}
+			});
+		} else{
+			//respond with json obj.
+			res.json({ success:false, message:'No token provided.' })
+		}
+	});
+
+	//CURRENT USER ROUTE - http://localhost:8080/api/currentUser
+	router.post('/currentUser', function(req, res){
+		res.send(req.decoded);
+	})
 
 	return router;	//to return that router object
 }
