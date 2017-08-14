@@ -1,6 +1,6 @@
 angular.module('mainController', ['authServices'])
 
-.controller('mainCtrl', function(Auth, $location, $timeout, $rootScope){
+.controller('mainCtrl', function(Auth, $location, $timeout, $rootScope, $window){
 	/* below is the same code (with some changes) I have used in userCtrl */
 	var app = this;	//global variable
 
@@ -25,7 +25,18 @@ angular.module('mainController', ['authServices'])
 			app.username = null;
 			app.loadme = true; //to hide angular stuff on UI -if we don't get the user info., then its fine but afterwards loadme to true
 		}
+
+		if($location.hash() == '_=_'){
+			$location.hash(null);
+		}
 	});
+
+	this.facebook = function() {
+		//console.log($window.location.host); //localhost:8080
+		//console.log($window.location.protocol); //http:
+
+		$window.location = $window.location.protocol + '//' + $window.location.host + '/auth/facebook';
+	};
 
 	this.doLogin = function(loginData){
 		//console.log("testing form submitted");

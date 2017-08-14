@@ -9,6 +9,9 @@ var bodyParser = require('body-parser');
 var router = express.Router(); //defining to use router with express.
 var appRoutes =require('./app/routes/api')(router); //to use the router object with this route file.
 var path = require('path'); //importing path
+var passport = require('passport'); //importing passport module
+var social = require('./app/passport/passport')(app, passport); //importing backend passport.js module created by me.
+
 
 //middleswares :- (order of the middlewares is very important.)
 //read more abot dev at https://www.npmjs.com/package/morgan#dev

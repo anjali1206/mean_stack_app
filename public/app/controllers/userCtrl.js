@@ -43,7 +43,30 @@ angular.module('userControllers', ['userServices'])
 			}
 		});
 	};
+})
+
+.controller('facebookCtrl', function(Auth, $routeParams, $location, $window){
+	//console.log("testing facebook controller");
+	//console.log($routeParams.token); //returns the url with token and token(object) in console.
+	var app = this; 
+
+	//set the token only if there is no err
+	if($window.location.pathname == '/facebookerror'){
+		//show err
+		app.errorMsg = 'Facebook email not found in database.';
+	} else {
+		Auth.facebook($routeParams.token); 
+		$location.path('/');	
+	}
+	
+	
 });
+
+
+
+
+
+
 
 /*
 it is very imp. to add all the service componants in ng as args in main controller functions with $ sign
