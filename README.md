@@ -19,3 +19,5 @@ Step 7: User Login, AngularJS Factory/Service, Authenticate Service
 Step 8: Keep User Logged In Using JSON Web Tokens
 
 Step 9: Login with Facebook, Twitter & Google+ using PassportJS 
+
+Step 10: Restricting Routes (ngRoute/AngularJS)
