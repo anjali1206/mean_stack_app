@@ -1,5 +1,5 @@
 <div class="page-header">
-	<h1>Log in to Feel Good</h1>
+	<h1>Log in to Application</h1>
 </div>
 
 <form ng-submit="main.doLogin(loginData);">
@@ -11,8 +11,10 @@
 	<label>Password</label>
 	<input class="form-control" type="password" name="password" placeholder="Password" ng-model="main.loginData.password">
 	<br>
-	<button class="btn btn-primary" type="submit">Log in</button>&nbsp
-	<button type="button" class="btn btn-success" ng-click="main.facebook();">Login with Facebook</button>
+	<!-- <button class="btn btn-primary" type="submit">Log in</button>&nbsp -->
+	<button type="button" class="btn button--login button--facebook" ng-click="main.facebook();"><i class="fa fa-facebook-square" aria-hidden="true"></i>LOGIN WITH FACEBOOK</button>&nbsp
+	<button type="button" class="btn button--login button--twitter" ng-click="main.twitter();">LOGIN WTIH TWITTER</button>&nbsp
+	<button type="button" class="btn button--login button--google" ng-click="main.google();">LOGIN WITH GOOGLE</button>&nbsp
 </form>
 <br>
 
@@ -37,5 +39,15 @@
 <div class="row show-hide-message" ng-show="facebook.errorMsg">
 	<div class="alert alert-danger">
 		{{ facebook.errorMsg }}
+	</div>
+</div>
+<div class="row show-hide-message" ng-show="twitter.errorMsg">
+	<div class="alert alert-danger">
+		{{ twitter.errorMsg }}
+	</div>
+</div>
+<div class="row show-hide-message" ng-show="google.errorMsg">
+	<div class="alert alert-danger">
+		{{ google.errorMsg }}
 	</div>
 </div>

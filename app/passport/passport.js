@@ -1,4 +1,6 @@
 var FacebookStrategy = require('passport-facebook').Strategy;
+var TwitterStrategy = require('passport-twitter').Strategy;
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var User = require('../models/user');
 var session = require('express-session'); //expressjs session
 var jwt = require('jsonwebtoken'); //jsonwebtoken
@@ -27,6 +29,7 @@ module.exports = function(app, passport) {
 	  	});
 	});
 
+	/* Facebook setup */
 	//got the FB ID & secret by creating an app on FB Developers page once I'm loggedIn on FB
 	passport.use(new FacebookStrategy({
     	clientID: '222598778266689',
@@ -35,25 +38,26 @@ module.exports = function(app, passport) {
     	profileFields: ['id', 'displayName', 'photos', 'email']
   		},
 	  	function(accessToken, refreshToken, profile, done) {
-	  		//console.log("coming from FB");
-	  		//console.log(profile);
+	  		console.log("User LoggingIn from FB");
+	  		//console.log(profile._json.email);
+	  		//done(null, profile); 
 	  		User.findOne({ email:profile._json.email }).select('username password email').exec(function(err, user){
 	  			if(err) done(err); //handle errors
 	  			
 	  			if(user && user !== null){	//to check if there is a user & with the verified email on FB
 	  				done(null, user);
-	  			} else {	//else there is user on fb but not in our mongo db.
-	  				//done(err);
+	  			} else {	//else there is user on fb but not in our mongo db.So, create new user
 	  				var newUser = new User();
+	  				var uname = profile._json.name.split(" "); //to split FB name and get just first name
 
-	  				newUser.username = profile._json.name;
+	  				newUser.username = uname[0]; //Fb name's 0th index is first name
 	  				newUser.password = accessToken;
 	  				newUser.email = profile._json.email;
 
 	  				newUser.save(function(err){
 	  					if(err){
-	  						console.log(err);
-	  						//done(err);
+	  						//console.log(err);
+	  						done(err);
 	  					} else{
 	  						console.log("saving new user...");
 	  						done(null, newUser);
@@ -67,18 +71,107 @@ module.exports = function(app, passport) {
 	  	}
 	));
 
-	/* Facebook will redirect the user to this URL after approval.  Finish the
-		authentication process by attempting to obtain an access token.  If
-		access was granted, the user will be logged in.  Otherwise,
-		authentication has failed.
+	/* Twitter setup */
+
+	passport.use(new TwitterStrategy({
+	    consumerKey: "ums45oYUA9D4L8LBsBS7YphpP",
+	    consumerSecret: "ouEtroIu09NUgeVkpxQerEcnTg5TmjGDASWnwadMxk4tQ8qHO8",
+	    callbackURL: "http://localhost:8080/auth/twitter/callback",
+	    userProfileURL: "https://api.twitter.com/1.1/account/verify_credentials.json?include_email=true"
+	  },
+	  function(token, tokenSecret, profile, done) {
+	  	console.log("User LoggingIn from Twitter");
+	  	//console.log(profile._json.name);
+	  	//console.log(profile._json.email);
+	    User.findOne({ email:profile._json.email }).select('username password email').exec(function(err, user){
+	  		if(err) done(err); //handle errors
+	  			
+	  		if(user && user !== null){	//to check if there is a user & with the verified email on FB
+	  			done(null, user);
+	  		} else {	//else there is user on fb but not in our mongo db.So, create new user
+	  			var newUser = new User();
+	  			//var uname = profile._json.name.split(" "); //to split twitter name string and get just first name
+
+	  			newUser.username = profile._json.name;
+	  			newUser.password = token;
+	  			newUser.email = profile._json.email;
+
+	  			newUser.save(function(err){
+	  				if(err){
+	  					//console.log(err);
+	  					done(err);
+	  				} else{
+	  					console.log("saving new user...");
+	  					done(null, newUser);
+	  				}
+	  			});
+	  		}
+	  	});
+	  }
+	));
+
+	/* Google setup */
+	/* Use the GoogleStrategy within Passport. Strategies in Passport require a `verify` function, which accept
+	/  credentials (in this case, an accessToken, refreshToken, and Google profile), and invoke a callback with a user object.
 	*/
-	app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/log' }), function(req, res){
+	passport.use(new GoogleStrategy({
+	    clientID: '119316387590-8q5uf8raou0ehppnvlm12i88ic15n1cr.apps.googleusercontent.com',
+	    clientSecret: 'JPGI5OkItKR4mox00Bj6Mk37',
+	    callbackURL: "http://localhost:8080/auth/google/callback"
+	  },
+	  function(accessToken, refreshToken, profile, done) {
+	  	console.log("User LoggingIn from Google");
+	  	//console.log(profile.emails[0].value);
+	  	//console.log(profile.name.givenName);
+	  	//done(null, profile);
+	  	User.findOne({ email:profile.emails[0].value }).select('username password email').exec(function(err, user){
+	  		if(err) done(err); //handle errors
+	  			
+	  		if(user && user !== null){	//to check if there is a user & with the verified email on FB
+	  			done(null, user);
+	  		} else {	//else there is user on fb but not in our mongo db.So, create new user
+	  			var newUser = new User();
+	  			//var uname = profile._json.name.split(" "); //to split twitter name string and get just first name
+
+	  			newUser.username = profile.name.givenName;
+	  			newUser.password = accessToken;
+	  			newUser.email = profile.emails[0].value;
+
+	  			newUser.save(function(err){
+	  				if(err){
+	  					//console.log(err);
+	  					done(err);
+	  				} else{
+	  					console.log("saving new user...");
+	  					done(null, newUser);
+	  				}
+	  			});
+	  		}
+	  	});
+	  }
+	));
+
+	/* Facebook will redirect the user to this URL after approval. Finish the authentication process by attempting to obtain an access token.  If
+		access was granted, the user will be logged in. Otherwise, authentication has failed.
+	*/
+	app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/facebookerror' }), function(req, res){
 		res.redirect('/facebook/' + token); //successRedirect to 
 	});
 
-	// just need email from uesr for special authentication from FB
+	// just need email from uesr for special authentication from FB  ////Change failureRedirect to /login////
 	app.get('/auth/facebook', passport.authenticate('facebook', { scope: 'email' } ));
 
+	////Change failureRedirect to /login////
+	app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/twittererror' }), function(req, res){
+		res.redirect('/twitter/' + token); //successRedirect to 
+	}); 
+	app.get('/auth/twitter', passport.authenticate('twitter'));
+
+	app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/googleerror' }), function(req, res) {
+	    res.redirect('/google/' + token);
+	});
+
+	app.get('/auth/google', passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login', 'profile', 'email'] }));
 
 	return passport;
 }

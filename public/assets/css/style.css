@@ -38,4 +38,36 @@ header .navbar{
 	to { -moz-transform: rotate(360deg); }
 }
 
+.button--login, .button--login:active, .button--login:focus, .button--login:hover {
+    font-size: 1.2rem;
+    padding: .8em 3.5em;
+    line-height: 1.9rem;
+    box-sizing: border-box;
+    border: none;
+    border-radius: .5em;
+    outline: none;
+    font-weight: normal;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    text-align: center;
+    transition: background-color .1s ease, border-color .1s ease;
+}
+
+/* Facebook button syling */
+.button--facebook {
+    background-color: #3b5998;
+}
+
+
+/* Twitter button syling */
+.button--twitter {
+	background-color: #55ACEE;
+}
+
+
+/* Google button syling */
+.button--google {
+	background-color: #666;
+}
 

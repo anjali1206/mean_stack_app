@@ -38,6 +38,20 @@ angular.module('mainController', ['authServices'])
 		$window.location = $window.location.protocol + '//' + $window.location.host + '/auth/facebook';
 	};
 
+	this.twitter = function() {
+		//console.log($window.location.host); //localhost:8080
+		//console.log($window.location.protocol); //http:
+
+		$window.location = $window.location.protocol + '//' + $window.location.host + '/auth/twitter';
+	};
+
+	this.google = function() {
+		//console.log($window.location.host); //localhost:8080
+		//console.log($window.location.protocol); //http:
+
+		$window.location = $window.location.protocol + '//' + $window.location.host + '/auth/google';
+	};
+
 	this.doLogin = function(loginData){
 		//console.log("testing form submitted");
 		app.loading = true;
@@ -69,7 +83,7 @@ angular.module('mainController', ['authServices'])
 		Auth.logout();
 		$location.path('/logout');
 		$timeout(function(){
-			$location.path('/');
+			$location.path('/login');
 		}, 2000);
 	};
 

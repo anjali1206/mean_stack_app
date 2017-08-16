@@ -60,6 +60,40 @@ angular.module('userControllers', ['userServices'])
 	}
 	
 	
+})
+
+.controller('twitterCtrl', function(Auth, $routeParams, $location, $window){
+	//console.log("testing twitter controller");
+	//console.log($routeParams.token); //returns the url with token and token(object) in console.
+	var app = this; 
+
+	//set the token only if there is no err
+	if($window.location.pathname == '/twittererror'){
+		//show err
+		app.errorMsg = 'Twitter email not found in database.';
+	} else {
+		Auth.facebook($routeParams.token); 
+		$location.path('/');	
+	}
+	
+	
+})
+
+.controller('googleCtrl', function(Auth, $routeParams, $location, $window){
+	//console.log("testing google controller");
+	//console.log($routeParams.token); //returns the url with token and token(object) in console.
+	var app = this; 
+
+	//set the token only if there is no err
+	if($window.location.pathname == '/googleerror'){
+		//show err
+		app.errorMsg = 'Google email not found in database.';
+	} else {
+		Auth.facebook($routeParams.token); 
+		$location.path('/');	
+	}
+	
+	
 });
 
 
