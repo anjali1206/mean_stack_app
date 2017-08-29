@@ -6,6 +6,10 @@
 regUSer(regData) - regData takea all the three user info.(email, uname,pw) & stores in one object.-->
 <form ng-submit="register.regUser(regData);">
 	<!-- Using ng-model="register.regData" to store the user info. in db,where regData is a name for ng-model. -->
+	<!-- name -->
+	<label>Name</label>
+	<input class="form-control" type="text" name="name" placeholder="Name" ng-model="register.regData.name">
+	<br>
 	<!-- email -->
 	<label>Email</label>
 	<input class="form-control" type="text" name="email" placeholder="Email" ng-model="register.regData.email">

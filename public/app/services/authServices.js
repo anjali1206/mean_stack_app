@@ -5,7 +5,7 @@ angular.module('authServices', [])
 	//name the factory
 	authFactory = {};
 
-	//User.create(regData)
+	//Auth.create(regData)
 	authFactory.login = function(loginData){
 		return $http.post('/api/authenticate', loginData).then(function(data){
 			//console.log(data.data.token);
@@ -71,9 +71,9 @@ angular.module('authServices', [])
 
 //to attach tokens to every req.
 .factory('AuthInterceptors', function(AuthToken) {
-	var AuthInterceptorsFactory = {};
+	var authInterceptorsFactory = {};
 
-	AuthInterceptorsFactory.request = function(config) {
+	authInterceptorsFactory.request = function(config) {
 		var token = AuthToken.getToken();
 
 		if(token) {
@@ -84,5 +84,5 @@ angular.module('authServices', [])
 	};
 
 
-	return AuthInterceptorsFactory;
+	return authInterceptorsFactory;
 });

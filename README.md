@@ -21,3 +21,5 @@ Step 8: Keep User Logged In Using JSON Web Tokens
 Step 9: Login with Facebook, Twitter & Google+ using PassportJS 
 
 Step 10: Restricting Routes (ngRoute/AngularJS)
+
+Step 11: Back-End Validation w/Mongoose & Regular Expressions (RegEx) 

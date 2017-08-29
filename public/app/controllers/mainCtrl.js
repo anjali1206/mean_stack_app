@@ -14,7 +14,10 @@ angular.module('mainController', ['authServices'])
 			//console.log('Success: User is logged in.');
 			app.isLoggedIn = true; //to hide login & register tabs once user logged in
 			Auth.getUser().then(function(data){
+				//console.log(data);
 				//console.log(data.data.username);
+				//console.log(data.data.name);
+				//app.uname = data.data.name;
 				app.username = data.data.username;
 				app.useremail = data.data.email;
 				app.loadme = true; //to hide angular stuff on UI-once we get all user info. we set loadme to true

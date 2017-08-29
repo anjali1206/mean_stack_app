@@ -23,13 +23,12 @@ module.exports = function(app, passport) {
 
 	passport.deserializeUser(function(id, done) {
 		User.findById(id, function(err, user) {
-			console.log(user);
-
+			//console.log(user);
 	    	done(err, user);
 	  	});
 	});
 
-	/* Facebook setup */
+	/*************************** FACEBOOK setup ***************************/
 	//got the FB ID & secret by creating an app on FB Developers page once I'm loggedIn on FB
 	passport.use(new FacebookStrategy({
     	clientID: '222598778266689',
@@ -39,9 +38,10 @@ module.exports = function(app, passport) {
   		},
 	  	function(accessToken, refreshToken, profile, done) {
 	  		console.log("User LoggingIn from FB");
-	  		//console.log(profile._json.email);
+	  		//console.log(profile);
 	  		//done(null, profile); 
-	  		User.findOne({ email:profile._json.email }).select('username password email').exec(function(err, user){
+	  		
+	  		User.findOne({ email:profile._json.email }).select('name username password email').exec(function(err, user){
 	  			if(err) done(err); //handle errors
 	  			
 	  			if(user && user !== null){	//to check if there is a user & with the verified email on FB
@@ -50,6 +50,7 @@ module.exports = function(app, passport) {
 	  				var newUser = new User();
 	  				var uname = profile._json.name.split(" "); //to split FB name and get just first name
 
+	  				newUser.name = profile._json.name; //full name on FB
 	  				newUser.username = uname[0]; //Fb name's 0th index is first name
 	  				newUser.password = accessToken;
 	  				newUser.email = profile._json.email;
@@ -65,13 +66,13 @@ module.exports = function(app, passport) {
 	  				});
 	  			}
 	  		});
-
+			
 	  		//below done will return FB profile but I need the profile from database. So, just delete it
 	    	//done(null, profile); //its done, null means there was no err & profile is the profile we get from the FB.
 	  	}
 	));
 
-	/* Twitter setup */
+	/*************************** TWITTER setup ***************************/
 
 	passport.use(new TwitterStrategy({
 	    consumerKey: "ums45oYUA9D4L8LBsBS7YphpP",
@@ -81,9 +82,10 @@ module.exports = function(app, passport) {
 	  },
 	  function(token, tokenSecret, profile, done) {
 	  	console.log("User LoggingIn from Twitter");
-	  	//console.log(profile._json.name);
-	  	//console.log(profile._json.email);
-	    User.findOne({ email:profile._json.email }).select('username password email').exec(function(err, user){
+	  	//console.log(profile);
+	  	//done(null, profile);
+	  	
+	    User.findOne({ email:profile._json.email }).select('name username password email').exec(function(err, user){
 	  		if(err) done(err); //handle errors
 	  			
 	  		if(user && user !== null){	//to check if there is a user & with the verified email on FB
@@ -92,7 +94,8 @@ module.exports = function(app, passport) {
 	  			var newUser = new User();
 	  			//var uname = profile._json.name.split(" "); //to split twitter name string and get just first name
 
-	  			newUser.username = profile._json.name;
+	  			newUser.name = profile._json.name; //full name on twitter
+	  			newUser.username = profile._json.screen_name; //username on twitter
 	  			newUser.password = token;
 	  			newUser.email = profile._json.email;
 
@@ -107,10 +110,11 @@ module.exports = function(app, passport) {
 	  			});
 	  		}
 	  	});
+	  	
 	  }
 	));
 
-	/* Google setup */
+	/*************************** GOOGLE setup ***************************/
 	/* Use the GoogleStrategy within Passport. Strategies in Passport require a `verify` function, which accept
 	/  credentials (in this case, an accessToken, refreshToken, and Google profile), and invoke a callback with a user object.
 	*/
@@ -121,10 +125,10 @@ module.exports = function(app, passport) {
 	  },
 	  function(accessToken, refreshToken, profile, done) {
 	  	console.log("User LoggingIn from Google");
-	  	//console.log(profile.emails[0].value);
-	  	//console.log(profile.name.givenName);
+	  	//console.log(profile);
 	  	//done(null, profile);
-	  	User.findOne({ email:profile.emails[0].value }).select('username password email').exec(function(err, user){
+	  	
+	  	User.findOne({ email:profile.emails[0].value }).select('name username password email').exec(function(err, user){
 	  		if(err) done(err); //handle errors
 	  			
 	  		if(user && user !== null){	//to check if there is a user & with the verified email on FB
@@ -133,7 +137,8 @@ module.exports = function(app, passport) {
 	  			var newUser = new User();
 	  			//var uname = profile._json.name.split(" "); //to split twitter name string and get just first name
 
-	  			newUser.username = profile.name.givenName;
+	  			newUser.name = profile._json.displayName; //displayName is full name on google
+	  			newUser.username = profile.name.givenName; //givenName(taken as usrname) is first name on google
 	  			newUser.password = accessToken;
 	  			newUser.email = profile.emails[0].value;
 
@@ -148,6 +153,7 @@ module.exports = function(app, passport) {
 	  			});
 	  		}
 	  	});
+	  	
 	  }
 	));
 
