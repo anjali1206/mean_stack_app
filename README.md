@@ -23,3 +23,5 @@ Step 9: Login with Facebook, Twitter & Google+ using PassportJS
 Step 10: Restricting Routes (ngRoute/AngularJS)
 
 Step 11: Back-End Validation w/Mongoose & Regular Expressions (RegEx) 
+
+Step 12: Front-End Form Validation w/AngularJS

@@ -7,13 +7,13 @@ var validate = require('mongoose-validator');
 var nameValidator = [
     validate({
         validator: 'matches',
-        arguments: /^(([a-zA-Z]{3,20})+[ ]+([a-zA-Z]{3,20})+)+$/ig,
+        arguments: /^(([a-zA-Z]{3,20})+[ ]+([a-zA-Z]{3,20})+)+$/,
         message: 'Name must be fullname with a space in between, must contain letters only with atleast 3 characters long.'
     }),
 
     validate({
         validator: 'isLength',
-        arguments: [3, 30],
+        arguments: [3, 20],
         message: 'Name should be between {ARGS[0]} and {ARGS[1]} characters'
     }),
 ];
@@ -21,13 +21,13 @@ var nameValidator = [
 var emailValidator = [
     validate({
         validator: 'isEmail',
-        //arguments: /^(([a-zA-Z]{3,20})+[ ]+([a-zA-Z]{3,20})+)+$/ig,
+        //arguments: /^([a-zA-Z0-9_\-\.]+)\w+@[a-zA-Z]+?\.[a-zA-Z]{2,5}$/,
         message: 'Please enter a valid email.'
     }),
 
     validate({
         validator: 'isLength',
-        arguments: [5, 30],
+        arguments: [3, 35],
         message: 'Email should be between {ARGS[0]} and {ARGS[1]} characters'
     }),
 
@@ -36,7 +36,7 @@ var emailValidator = [
 var usernameValidator = [
     validate({
         validator: 'isLength',
-        arguments: [3, 30],
+        arguments: [3, 25],
         message: 'Username should be between {ARGS[0]} and {ARGS[1]} characters'
     }),
 
