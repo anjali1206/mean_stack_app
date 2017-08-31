@@ -56,6 +56,33 @@ module.exports = function(router){	//function (router)- it's gonna export whatev
 		}
 	});
 
+
+	//validation to check if username already exist in db.
+	router.post('/checkusername', function(req, res){
+		User.findOne({ username: req.body.username }).select('username').exec(function(err, user){
+			if(err) throw err;
+
+			if(user){
+				res.json({ success:false, message: "That username is taken. Try another."});
+			} else{
+				res.json({ success:true, message: "Valid username"});
+			}
+		});
+	});
+
+	//validation to check if email already exist in db.
+	router.post('/checkemail', function(req, res){
+		User.findOne({ email: req.body.email }).select('email').exec(function(err, user){
+			if(err) throw err;
+
+			if(user){
+				res.json({ success:false, message: "That email is taken. Try another."});
+			} else{
+				res.json({ success:true, message: "Valid email."});
+			}
+		});
+	});
+
 	//USER LOGIN ROUTE - http://localhost:8080/api/authenticate
 	router.post('/authenticate', function(req, res){
 		User.findOne({ username: req.body.username }).select('username password email').exec(function(err, user){
