@@ -77,6 +77,39 @@ var app = angular.module('appRoutes', ['ngRoute'])
 		authenticated: false
 	})
 
+	.when('/facebook/inactive/error', {
+		templateUrl: 'app/views/pages/users/login.html',
+		controller: 'facebookCtrl',
+		controllerAs: 'facebook',
+		authenticated: false
+	})
+
+	.when('/twitter/inactive/error', {
+		templateUrl: 'app/views/pages/users/login.html',
+		controller: 'twitterCtrl',
+		controllerAs: 'twitter',
+		authenticated: false
+	})
+
+	.when('/google/inactive/error', {
+		templateUrl: 'app/views/pages/users/login.html',
+		controller: 'googleCtrl',
+		controllerAs: 'google',
+		authenticated: false
+	})
+
+	.when('/activate/:token', {
+		templateUrl: 'app/views/pages/users/activation/activate.html',
+		controller: 'emailCtrl',
+		controllerAs: 'email'
+	})
+
+	.when('/resend', {
+		templateUrl: 'app/views/pages/users/activation/resend.html',
+		controller: 'resendCtrl',
+		controllerAs: 'resend'
+	})
+
 	.otherwise({ redirectTo: '/'});
 
 	//to remove # symbol from url -use angular nobase (visit: https://docs.angularjs.org/error/$location/nobase)
@@ -106,7 +139,7 @@ app.run(['$rootScope', 'Auth', '$location', function($rootScope, Auth, $location
 				$location.path('/profile');
 			}
 		} else {	//just for the testing purpose for the home route. 
-			console.log("Authentication doesn't matter");
+			//console.log("Authentication doesn't matter");
 		}
 
 	});

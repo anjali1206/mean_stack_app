@@ -64,13 +64,19 @@ var passwordValidator = [
 var UserSchema = new Schema({
     name: { type: String, require:true, validate: nameValidator },
     username: { type: String, lowercase: true, required: true, unique: true, validate: usernameValidator },
-    password: { type: String, required: true, validate: passwordValidator },
+    password: { type: String, required: true, validate: passwordValidator, select: false },
     email: { type: String, lowercase: true, required: true, unique: true, validate: emailValidator },
+    //adding a field to let me know if the account is active & also a temp.token field that I can user to send that link to the email.
+    active: { type: Boolean, required: true, default: false },
+    temporarytoken: { type: String, required: true }
 });
 
 //before saving the schema, encrypt the password: (for info.visit-http://mongoosejs.com/docs/middleware.html)
 UserSchema.pre('save', function(next) {
     var user = this; //whoever user(this user) is running through this middleware.
+    if(!user.isModified('password')) { //if pw isn't modified, return next
+        return next();
+    }
     //implement bcrypt to hash the password. (https://www.npmjs.com/package/bcrypt-nodejs)
     bcrypt.hash(user.password, null, null, function(err, hash) {
         // Store hash in your password DB.

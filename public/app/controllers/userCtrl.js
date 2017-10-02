@@ -1,6 +1,6 @@
 angular.module('userControllers', ['userServices'])
 	
-//registration controller	
+//registration controller - regCtrl for users to register/signup for an account	
 .controller('regCtrl', function($location, $timeout, User){
 	//to access varible in if else statements.
 	var app = this; 
@@ -8,7 +8,7 @@ angular.module('userControllers', ['userServices'])
 	//on click function to submit data by clicking on Register btn on UI.
 	this.regUser = function(regData, valid){	//regData is a name for ng-model. 
 		//console.log("form submitted.");
-
+		app.disabled = true;
 		//anytime the btn is pressed to show the loading... when its necessary
 		app.loading = true;
 		//to hide the errorMsg while showing successMsg
@@ -37,11 +37,13 @@ angular.module('userControllers', ['userServices'])
 						$location.path('/');
 					}, 2000);				
 				} else {
+					app.disabled = false;	//remove disabled on form if err
 					app.loading = false;
 					app.errorMsg = data.data.message; //create an error msg
 				}
 			});
 		} else {
+			app.disabled = false;	//remove disable on form if err
 			app.loading = false;
 			app.errorMsg = "Please ensure form fields are filled out properly.";	//create an error msg
 		}
@@ -131,11 +133,17 @@ angular.module('userControllers', ['userServices'])
 	//console.log("testing facebook controller");
 	//console.log($routeParams.token); //returns the url with token and token(object) in console.
 	var app = this; 
+	app.errorMsg =false;
+	app.expired = false;
+	app.disabled= true;
 
 	//set the token only if there is no err
 	if($window.location.pathname == '/facebookerror'){
 		//show err
 		app.errorMsg = 'Facebook email not found in database.';
+	} else if ($window.location.pathname == '/facebook/inactive/error'){
+		app.expired = true;
+		app.errorMsg = 'Account is not yet activated. Please check your email for activation link.';
 	} else {
 		Auth.facebook($routeParams.token); 
 		$location.path('/');	
@@ -148,11 +156,17 @@ angular.module('userControllers', ['userServices'])
 	//console.log("testing twitter controller");
 	//console.log($routeParams.token); //returns the url with token and token(object) in console.
 	var app = this; 
+	app.errorMsg =false;
+	app.expired = false;
+	app.disabled= true;
 
 	//set the token only if there is no err
 	if($window.location.pathname == '/twittererror'){
 		//show err
 		app.errorMsg = 'Twitter email not found in database.';
+	} else if ($window.location.pathname == '/twitter/inactive/error'){
+		app.expired = true;
+		app.errorMsg = 'Account is not yet activated. Please check your email for activation link.';
 	} else {
 		Auth.facebook($routeParams.token); 
 		$location.path('/');	
@@ -165,11 +179,17 @@ angular.module('userControllers', ['userServices'])
 	//console.log("testing google controller");
 	//console.log($routeParams.token); //returns the url with token and token(object) in console.
 	var app = this; 
+	app.errorMsg =false;
+	app.expired = false;
+	app.disabled= true;
 
 	//set the token only if there is no err
 	if($window.location.pathname == '/googleerror'){
 		//show err
 		app.errorMsg = 'Google email not found in database.';
+	} else if ($window.location.pathname == '/google/inactive/error'){
+		app.expired = true;
+		app.errorMsg = 'Account is not yet activated. Please check your email for activation link.';
 	} else {
 		Auth.facebook($routeParams.token); 
 		$location.path('/');	

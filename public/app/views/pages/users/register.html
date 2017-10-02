@@ -9,7 +9,7 @@ regUSer(regData) - regData takea all the three user info.(email, uname,pw) & sto
 	<!-- name -->
 	<div ng-class="{ 'has-success':(regForm.name.$valid && !regForm.name.$pristine), 'has-error': (!regForm.name.$valid && !regForm.name.$pristine) || (!regForm.name.$valid && regForm.$submitted) }">
 		<label>Name</label>
-		<input class="form-control" type="text" name="name" placeholder="Name" ng-model="register.regData.name" ng-pattern="/^(([a-zA-Z]{3,20})+[ ]+([a-zA-Z]{3,20})+)+$/" ng-minlength="3" ng-maxlength="20" required>
+		<input ng-disabled="register.disabled" class="form-control" type="text" name="name" placeholder="Name" ng-model="register.regData.name" ng-pattern="/^(([a-zA-Z]{3,20})+[ ]+([a-zA-Z]{3,20})+)+$/" ng-minlength="3" ng-maxlength="20" required>
 		<p class="help-block" ng-show="(!regForm.name.$pristine && regForm.name.$error.required) || (regForm.$submitted && regForm.name.$error.required)">This field is required.</p>
 		<ul ng-show="(!regForm.name.$pristine && regForm.name.$error.pattern) || (!regForm.name.$pristine && regForm.name.$error.minlength) || (!regForm.name.$pristine && regForm.name.$error.maxlength)" class="help-block">
 			<li>Must have a space in between first and last name.</li>
@@ -21,7 +21,7 @@ regUSer(regData) - regData takea all the three user info.(email, uname,pw) & sto
 	<!-- email -->
 	<div ng-class="{ 'has-success':(regForm.email.$valid && !regForm.email.$pristine && !register.emailInvalid), 'has-error': (!regForm.email.$valid && !regForm.email.$pristine) || (!regForm.email.$valid && regForm.$submitted) || register.emailInvalid }">
 		<label>Email</label>
-		<input class="form-control" type="text" name="email" placeholder="Email" ng-model="register.regData.email" ng-pattern="/^([a-zA-Z0-9_\.]+)\w+@[a-zA-Z]+?\.[a-zA-Z]{2,5}$/" ng-minlength="3" ng-maxlength="35" ng-blur="register.checkEmail(regData);" required>
+		<input ng-disabled="register.disabled" class="form-control" type="text" name="email" placeholder="Email" ng-model="register.regData.email" ng-pattern="/^([a-zA-Z0-9_\.]+)\w+@[a-zA-Z]+?\.[a-zA-Z]{2,5}$/" ng-minlength="3" ng-maxlength="35" ng-blur="register.checkEmail(regData);" required>
 		<p class="help-block" ng-show="(!regForm.email.$pristine && regForm.email.$error.required) || (regForm.$submitted && regForm.email.$error.required)">This field is required.</p>
 		<span ng-show="register.checkingEmail" class="glyphicon glyphicon-repeat"></span>
 		<p class="help-block" ng-show="register.emailMsg && !regForm.email.$error.required && regForm.email.$valid">{{ register.emailMsg }}</p>
@@ -36,7 +36,7 @@ regUSer(regData) - regData takea all the three user info.(email, uname,pw) & sto
 	<!-- username -->
 	<div ng-class="{ 'has-success':(regForm.username.$valid && !regForm.username.$pristine && !register.usernameInvalid), 'has-error': (!regForm.username.$valid && !regForm.username.$pristine) || (!regForm.username.$valid && regForm.$submitted) || register.usernameInvalid }">
 		<label>Username</label>
-		<input class="form-control" type="text" name="username" placeholder="Username" ng-model="register.regData.username" ng-pattern="/^\w{3,25}$/" ng-minlength="3" ng-maxlength="25" ng-blur="register.checkUsername(regData);" required>
+		<input ng-disabled="register.disabled" class="form-control" type="text" name="username" placeholder="Username" ng-model="register.regData.username" ng-pattern="/^\w{3,25}$/" ng-minlength="3" ng-maxlength="25" ng-blur="register.checkUsername(regData);" required>
 		<p class="help-block" ng-show="(!regForm.username.$pristine && regForm.username.$error.required) || (regForm.$submitted && regForm.username.$error.required)">This field is required.</p>
 		<span ng-show="register.checkingUsername" class="glyphicon glyphicon-repeat"></span>
 		<p class="help-block" ng-show="register.usernameMsg && !regForm.username.$error.required && regForm.username.$valid">{{ register.usernameMsg }}</p>
@@ -50,7 +50,7 @@ regUSer(regData) - regData takea all the three user info.(email, uname,pw) & sto
 	<!-- password -->
 	<div ng-class="{ 'has-success':(regForm.password.$valid && !regForm.password.$pristine), 'has-error': (!regForm.password.$valid && !regForm.password.$pristine) || (!regForm.password.$valid && regForm.$submitted) }">
 		<label>Password</label>
-		<input class="form-control" type="password" name="password" placeholder="Password" ng-model="password" ng-pattern="/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W])[0-9a-zA-Z\S]{8,35}$/" ng-minlength="8" ng-maxlength="35" required>
+		<input ng-disabled="register.disabled" class="form-control" type="password" name="password" placeholder="Password" ng-model="password" ng-pattern="/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W])[0-9a-zA-Z\S]{8,35}$/" ng-minlength="8" ng-maxlength="35" required>
 		<p class="help-block" ng-show="(!regForm.password.$pristine && regForm.password.$error.required) || (regForm.$submitted && regForm.password.$error.required)">This field is required.</p>
 		<ul ng-show="(!regForm.password.$pristine && regForm.password.$error.pattern) || (!regForm.password.$pristine && regForm.password.$error.minlength) || (!regForm.password.$pristine && regForm.password.$error.maxlength)" class="help-block">
 			<li>Use a mix of letters, numbers, and symbols in your password.</li>
@@ -64,12 +64,12 @@ regUSer(regData) - regData takea all the three user info.(email, uname,pw) & sto
 	<!-- confirmPassword -->
 	<div ng-class="{ 'has-success':confirmed && !regForm.confirmPassword.$error.required, 'has-error': (!confirmed && !regForm.confirmPassword.$error.required) || (regForm.confirmPassword.$error.required && !regForm.confirmPassword.$pristine) || (!regForm.confirmPassword.$valid && regForm.$submitted) }">
 		<label>Confirm Password</label>
-		<input class="form-control" type="password" name="confirmPassword" placeholder="Confirm Password" match="{{[password]}}" ng-change="register.regData.password = confirm" ng-model="confirm" required>
+		<input ng-disabled="register.disabled" class="form-control" type="password" name="confirmPassword" placeholder="Confirm Password" match="{{[password]}}" ng-change="register.regData.password = confirm" ng-model="confirm" required>
 		<p class="help-block" ng-show="(!regForm.confirmPassword.$pristine && regForm.confirmPassword.$error.required) || (regForm.$submitted && regForm.confirmPassword.$error.required)">This field is required.</p>
 		<p class="help-block" ng-show="!confirmed && !regForm.confirmPassword.$pristine && regForm.password.$valid">Passwords do not match.</p>
 	</div>
 	<br>
-	<button class="btn btn-primary" type="submit">Sign Up</button>
+	<button ng-disabled="register.disabled" class="btn btn-primary" type="submit">Sign Up</button>
 </form>
 
 <!--

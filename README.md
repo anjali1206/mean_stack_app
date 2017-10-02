@@ -27,3 +27,5 @@ Step 11: Back-End Validation w/Mongoose & Regular Expressions (RegEx)
 Step 12: Front-End Form Validation w/AngularJS
 
 Step 13: Confirm/Match Password w/AngularJS
+
+Step 14: Confirmation E-mail(Nodemailer & Sendgrid)- once registered, send confirmation email. User can only login after they confirmed the email.

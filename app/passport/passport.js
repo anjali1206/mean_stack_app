@@ -16,8 +16,14 @@ module.exports = function(app, passport) {
 
   	//In order to support login sessions, Passport will serialize and deserialize user instances to and from the session
 	passport.serializeUser(function(user, done) {
-		//using the token variable created in api.js
-		token = jwt.sign({ username: user.username, email: user.email }, secret, { expiresIn: '24h'} );//after 24 hrs, this token expires
+		//check the active field first, to give token to user
+		if(user.active){
+			//using the token variable created in api.js
+			token = jwt.sign({ username: user.username, email: user.email }, secret, { expiresIn: '24h'} );//after 24 hrs, this token expires
+		} else {
+			token = 'inactive/error';
+		}
+
 		done(null, user.id);
 	});
 
@@ -41,7 +47,7 @@ module.exports = function(app, passport) {
 	  		//console.log(profile);
 	  		//done(null, profile); 
 	  		
-	  		User.findOne({ email:profile._json.email }).select('name username password email').exec(function(err, user){
+	  		User.findOne({ email:profile._json.email }).select('name username password email active').exec(function(err, user){
 	  			if(err) done(err); //handle errors
 	  			
 	  			if(user && user !== null){	//to check if there is a user & with the verified email on FB
@@ -85,7 +91,7 @@ module.exports = function(app, passport) {
 	  	//console.log(profile);
 	  	//done(null, profile);
 	  	
-	    User.findOne({ email:profile._json.email }).select('name username password email').exec(function(err, user){
+	    User.findOne({ email:profile._json.email }).select('name username password email active').exec(function(err, user){
 	  		if(err) done(err); //handle errors
 	  			
 	  		if(user && user !== null){	//to check if there is a user & with the verified email on FB
@@ -128,7 +134,7 @@ module.exports = function(app, passport) {
 	  	//console.log(profile);
 	  	//done(null, profile);
 	  	
-	  	User.findOne({ email:profile.emails[0].value }).select('name username password email').exec(function(err, user){
+	  	User.findOne({ email:profile.emails[0].value }).select('name username password email active').exec(function(err, user){
 	  		if(err) done(err); //handle errors
 	  			
 	  		if(user && user !== null){	//to check if there is a user & with the verified email on FB

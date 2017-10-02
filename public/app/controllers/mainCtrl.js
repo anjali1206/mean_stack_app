@@ -37,21 +37,21 @@ angular.module('mainController', ['authServices'])
 	this.facebook = function() {
 		//console.log($window.location.host); //localhost:8080
 		//console.log($window.location.protocol); //http:
-
+		app.disabled= true;
 		$window.location = $window.location.protocol + '//' + $window.location.host + '/auth/facebook';
 	};
 
 	this.twitter = function() {
 		//console.log($window.location.host); //localhost:8080
 		//console.log($window.location.protocol); //http:
-
+		app.disabled= true;
 		$window.location = $window.location.protocol + '//' + $window.location.host + '/auth/twitter';
 	};
 
 	this.google = function() {
 		//console.log($window.location.host); //localhost:8080
 		//console.log($window.location.protocol); //http:
-
+		app.disabled= true;
 		$window.location = $window.location.protocol + '//' + $window.location.host + '/auth/google';
 	};
 
@@ -59,6 +59,8 @@ angular.module('mainController', ['authServices'])
 		//console.log("testing form submitted");
 		app.loading = true;
 		app.errorMsg = false;
+		app.expired = false;
+		app.disabled = true; //after user pressed the login btn, its gonna disable the form
 
 		Auth.login(app.loginData).then(function(data){
 			if(data.data.success){
@@ -74,9 +76,17 @@ angular.module('mainController', ['authServices'])
 					app.successMsg = false;
 				}, 2000);				
 			} else {
-				app.loading = false;
-				//create an error msg
-				app.errorMsg = data.data.message;
+				if(data.data.expired){
+					app.expired = true;
+					app.loading = false;
+					app.errorMsg = data.data.message;
+				} else {
+					//create an error msg
+					app.loading = false;
+					app.disabled= false;	//remove disabling if there is an err in form. So, user can try again
+					app.errorMsg = data.data.message;
+				}
+				
 			}
 		});
 	};
